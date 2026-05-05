@@ -3,70 +3,70 @@
     "id": "sallal-seththal",
     "name_ta": "சல்லல் / செத்தல்",
     "name_en": "Sallal / Seththal",
-    "price_lkr_per_kg": 1400,
+    "price_lkg_per_kg": 1200,
     "available": true
   },
   {
     "id": "golden-japan",
     "name_ta": "கோல்டன் / ஜப்பான்",
     "name_en": "Golden / Japan",
-    "price_lkr_per_kg": 1200,
+    "price_lkg_per_kg": 1000,
     "available": true
   },
   {
     "id": "mural",
     "name_ta": "முரல்",
     "name_en": "Murrel (Snakehead)",
-    "price_lkr_per_kg": 2800,
+    "price_lkg_per_kg": 1000,
     "available": true
   },
   {
     "id": "otti",
     "name_ta": "ஒட்டி",
     "name_en": "Otti",
-    "price_lkr_per_kg": 1600,
-    "available": true
+    "price_lkg_per_kg": 1500,
+    "available": false
   },
   {
     "id": "velraal",
     "name_ta": "வெள்றால்",
     "name_en": "Velraal",
-    "price_lkr_per_kg": 1900,
+    "price_500g_per_kg": 1400,
     "available": true
   },
   {
     "id": "manaraal",
     "name_ta": "மனறால்",
     "name_en": "Manaraal",
-    "price_lkr_per_kg": 1800,
+    "price_500g_per_kg": 800,
     "available": true
   },
   {
     "id": "semperaal",
     "name_ta": "சேம்புறால்",
     "name_en": "Semberaal",
-    "price_lkr_per_kg": 2200,
+    "price_500g_per_kg": 600,
     "available": true
   },
   {
     "id": "kilakkan",
     "name_ta": "கிழக்கன்",
     "name_en": "Kilakkan",
-    "price_lkr_per_kg": 1500,
-    "available": true
+    "price_500g_per_kg": 700,
+    "available": false
   },
   {
     "id": "madraal",
     "name_ta": "மட்றால்",
     "name_en": "Madraal",
-    "price_lkr_per_kg": 1700,
+    "price_500g_per_kg": 1700,
     "available": true
   },
   {
     "id": "neththali-ayyammaasi",
     "name_ta": "நெத்தலி / அய்யம்மாசி",
     "name_en": "Anchovy",
-    "price_lkr_per_kg": 1300,
+    "price_lkr_per_kg": 1600,
     "available": true
   }
 ]
