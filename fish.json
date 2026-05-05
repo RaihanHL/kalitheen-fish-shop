@@ -31,35 +31,35 @@
     "id": "velraal",
     "name_ta": "வெள்றால்",
     "name_en": "Velraal",
-    "price_500g_per_kg": 1400,
+    "price_lkr_per_kg": 2800,
     "available": true
   },
   {
     "id": "manaraal",
     "name_ta": "மனறால்",
     "name_en": "Manaraal",
-    "price_500g_per_kg": 800,
+    "price_lkr_per_kg": 1600,
     "available": true
   },
   {
     "id": "semperaal",
     "name_ta": "சேம்புறால்",
     "name_en": "Semberaal",
-    "price_500g_per_kg": 600,
+    "price_lkr_per_kg": 1200,
     "available": true
   },
   {
     "id": "kilakkan",
     "name_ta": "கிழக்கன்",
     "name_en": "Kilakkan",
-    "price_500g_per_kg": 700,
+    "price_lkr_per_kg": 1400,
     "available": false
   },
   {
     "id": "madraal",
     "name_ta": "மட்றால்",
     "name_en": "Madraal",
-    "price_500g_per_kg": 1700,
+    "price_lkr_per_kg": 3200,
     "available": true
   },
   {
