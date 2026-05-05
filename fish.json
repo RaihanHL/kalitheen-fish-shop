@@ -3,28 +3,28 @@
     "id": "sallal-seththal",
     "name_ta": "சல்லல் / செத்தல்",
     "name_en": "Sallal / Seththal",
-    "price_lkg_per_kg": 1200,
+    "price_lkr_per_kg": 1200,
     "available": true
   },
   {
     "id": "golden-japan",
     "name_ta": "கோல்டன் / ஜப்பான்",
     "name_en": "Golden / Japan",
-    "price_lkg_per_kg": 1000,
+    "price_lkr_per_kg": 1000,
     "available": true
   },
   {
     "id": "mural",
     "name_ta": "முரல்",
     "name_en": "Murrel (Snakehead)",
-    "price_lkg_per_kg": 1000,
+    "price_lkr_per_kg": 1000,
     "available": true
   },
   {
     "id": "otti",
     "name_ta": "ஒட்டி",
     "name_en": "Otti",
-    "price_lkg_per_kg": 1500,
+    "price_lkr_per_kg": 1500,
     "available": false
   },
   {
