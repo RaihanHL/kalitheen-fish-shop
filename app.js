@@ -66,7 +66,7 @@ function setStaticLinks() {
 
 async function loadFishData() {
   try {
-    const response = await fetch('fish.json?v=' + Date.now()), { cache: "no-store" });
+    const response = await fetch('fish.json?v=' + Date.now(), { cache: "no-store" });
     if (!response.ok) {
       throw new Error("Failed to load fish.json");
     }
