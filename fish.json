@@ -1,72 +1,105 @@
-[
-  {
-    "id": "sallal-seththal",
-    "name_ta": "சல்லல் / செத்தல்",
-    "name_en": "Sallal / Seththal",
-    "price_lkr_per_kg": 1200,
-    "available": true
-  },
-  {
-    "id": "golden-japan",
-    "name_ta": "கோல்டன் / ஜப்பான்",
-    "name_en": "Golden / Japan",
-    "price_lkr_per_kg": 1000,
-    "available": true
-  },
-  {
-    "id": "mural",
-    "name_ta": "முரல்",
-    "name_en": "Murrel (Snakehead)",
-    "price_lkr_per_kg": 1000,
-    "available": true
-  },
-  {
-    "id": "otti",
-    "name_ta": "ஒட்டி",
-    "name_en": "Otti",
-    "price_lkr_per_kg": 1500,
-    "available": false
-  },
-  {
-    "id": "velraal",
-    "name_ta": "வெள்றால்",
-    "name_en": "Velraal",
-    "price_lkr_per_kg": 2800,
-    "available": true
-  },
-  {
-    "id": "manaraal",
-    "name_ta": "மனறால்",
-    "name_en": "Manaraal",
-    "price_lkr_per_kg": 1600,
-    "available": true
-  },
-  {
-    "id": "semperaal",
-    "name_ta": "சேம்புறால்",
-    "name_en": "Semberaal",
-    "price_lkr_per_kg": 1200,
-    "available": true
-  },
-  {
-    "id": "kilakkan",
-    "name_ta": "கிழக்கன்",
-    "name_en": "Kilakkan",
-    "price_lkr_per_kg": 1400,
-    "available": false
-  },
-  {
-    "id": "madraal",
-    "name_ta": "மட்றால்",
-    "name_en": "Madraal",
-    "price_lkr_per_kg": 3200,
-    "available": true
-  },
-  {
-    "id": "neththali-ayyammaasi",
-    "name_ta": "நெத்தலி / அய்யம்மாசி",
-    "name_en": "Anchovy",
-    "price_lkr_per_kg": 600,
-    "available": true
-  }
-]
+{
+  "lastUpdated": "2024-01-15",
+  "fishList": [
+    {
+      "id": 1,
+      "nameTamil": "சல்லல்/செத்தல்",
+      "nameEnglish": "Sardine",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?w=400",
+      "available": true,
+      "category": "regular",
+      "stock": "High"
+    },
+    {
+      "id": 2,
+      "nameTamil": "கோல்டன்/ஜப்பான்",
+      "nameEnglish": "Golden/Japan",
+      "price": 450,
+      "image": "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?w=400",
+      "available": true,
+      "category": "premium",
+      "stock": "Medium"
+    },
+    {
+      "id": 3,
+      "nameTamil": "முரல்",
+      "nameEnglish": "Murrel Fish",
+      "price": 650,
+      "image": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400",
+      "available": true,
+      "category": "premium",
+      "stock": "Low"
+    },
+    {
+      "id": 4,
+      "nameTamil": "ஒட்டி",
+      "nameEnglish": "Otti",
+      "price": 400,
+      "image": "https://images.unsplash.com/photo-1580950113276-f1b539d3b7be?w=400",
+      "available": true,
+      "category": "regular",
+      "stock": "High"
+    },
+    {
+      "id": 5,
+      "nameTamil": "வெள்ளறால்",
+      "nameEnglish": "White Prawns",
+      "price": 850,
+      "image": "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=400",
+      "available": true,
+      "category": "premium",
+      "stock": "Medium"
+    },
+    {
+      "id": 6,
+      "nameTamil": "மனறால்",
+      "nameEnglish": "Tiger Prawns",
+      "price": 1100,
+      "image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
+      "available": true,
+      "category": "premium",
+      "stock": "Low"
+    },
+    {
+      "id": 7,
+      "nameTamil": "சேம்புறால்",
+      "nameEnglish": "Flower Prawns",
+      "price": 950,
+      "image": "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=400",
+      "available": true,
+      "category": "premium",
+      "stock": "Medium"
+    },
+    {
+      "id": 8,
+      "nameTamil": "கிழக்கன்",
+      "nameEnglish": "Kilakkan",
+      "price": 500,
+      "image": "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?w=400",
+      "available": true,
+      "category": "regular",
+      "stock": "High"
+    },
+    {
+      "id": 9,
+      "nameTamil": "மட்டறால்",
+      "nameEnglish": "Mud Crab",
+      "price": 1200,
+      "image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
+      "available": false,
+      "category": "premium",
+      "stock": "Out of Stock"
+    },
+    {
+      "id": 10,
+      "nameTamil": "நெத்தலி/அய்யம்மாசி",
+      "nameEnglish": "Anchovy",
+      "price": 280,
+      "image": "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?w=400",
+      "available": true,
+      "category": "regular",
+      "stock": "High"
+    }
+  ]
+}
