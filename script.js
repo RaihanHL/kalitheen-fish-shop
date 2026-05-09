@@ -225,7 +225,7 @@ function updatePriceDisplay(fishId, quantity) {
 }
 
 // Add to cart
-function addToCart(fishId) {
+function amountEntered {
     const fish = fishData.find(f => f.id === fishId);
     const quantity = selectedQuantities[fishId];
     
@@ -240,12 +240,13 @@ function addToCart(fishId) {
         cart[existingItemIndex].quantity += quantity;
     } else {
         cart.push({
-            id: fish.id,
-            nameTamil: fish.nameTamil,
-            nameEnglish: fish.nameEnglish,
-            price: fish.price,
-            quantity: quantity
-        });
+  id: fish.id,
+  nameTamil: fish.nameTamil,
+  nameEnglish: fish.nameEnglish,
+  price: fish.price,
+  quantity: quantity,
+  amountEntered: selectedAmounts[fishId] || null
+});
     }
     
     updateCartUI();
@@ -256,7 +257,7 @@ function addToCart(fishId) {
 
 // Reset fish card
 function resetFishCard(fishId) {
-    delete selectedQuantities[fishId];
+    delete selectedAmounts[fishId];
     const card = document.querySelector(`#cart-btn-${fishId}`)?.closest('.fish-card');
     if (!card) return;
     
