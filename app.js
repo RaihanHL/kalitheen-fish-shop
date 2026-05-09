@@ -9,45 +9,62 @@ async function loadFishData() {
         const response = await fetch('fish-data.json');
         const data = await response.json();
         fishData = data.fishList;
+        console.log('Loaded fish data:', fishData); // Debug
         renderFishCards(fishData);
         updateLastUpdated(data.lastUpdated);
     } catch (error) {
         console.error('Error loading fish data:', error);
-        // Fallback to sample data if JSON fails
-        loadSampleData();
+        showError();
     }
 }
 
-// Fallback Sample Data
-function loadSampleData() {
-    fishData = [
-        {
-            id: 1,
-            nameTamil: "சல்லல்/செத்தல்",
-            nameEnglish: "Sardine",
-            price: 350,
-            image: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?w=400",
-            available: true,
-            category: "regular",
-            stock: "High"
-        },
-        // Add more sample data...
-    ];
-    renderFishCards(fishData);
+// Show Error Message
+function showError() {
+    const fishGrid = document.getElementById('fishGrid');
+    if (fishGrid) {
+        fishGrid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>பிழை | Error Loading Fish List</h3>
+                <p>மீன் பட்டியலை ஏற்ற முடியவில்லை. பக்கத்தை புதுப்பிக்கவும்.<br>
+                Unable to load fish list. Please refresh the page.</p>
+                <button class="btn btn-primary" onclick="location.reload()">
+                    <i class="fas fa-redo"></i> புதுப்பிக்க | Refresh
+                </button>
+            </div>
+        `;
+    }
 }
 
 // Update Last Updated Date
 function updateLastUpdated(date) {
     const dateElement = document.querySelector('.last-updated');
     if (dateElement) {
-        dateElement.textContent = `Last Updated: ${date}`;
+        dateElement.textContent = `கடைசி புதுப்பிப்பு | Last Updated: ${date}`;
     }
 }
 
 // Render Fish Cards
 function renderFishCards(fishList) {
     const fishGrid = document.getElementById('fishGrid');
-    if (!fishGrid) return;
+    if (!fishGrid) {
+        console.error('Fish grid element not found!');
+        return;
+    }
+
+    console.log('Rendering', fishList.length, 'fish cards'); // Debug
+
+    if (fishList.length === 0) {
+        fishGrid.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-fish"></i>
+                <h3>மீன் இல்லை | No Fish Available</h3>
+                <p>தற்போது மீன் இல்லை. விரைவில் புதுப்பிக்கப்படும்.<br>
+                No fish available at the moment. Check back soon!</p>
+            </div>
+        `;
+        return;
+    }
 
     fishGrid.innerHTML = '';
 
@@ -63,24 +80,30 @@ function createFishCard(fish) {
     card.className = 'fish-card';
     card.setAttribute('data-category', fish.category);
     card.setAttribute('data-available', fish.available);
+    card.setAttribute('data-type', fish.type);
 
     const badgeClass = fish.available ? 'badge-available' : 'badge-out';
     const badgeText = fish.available ? 
         `✓ ${fish.stock}` : 
-        '✗ Out of Stock';
+        '✗ இல்லை | Out of Stock';
 
     const isPremium = fish.category === 'premium';
+    const fishType = fish.type === 'river' ? 'ஆற்று மீன் | River' : 'கடல் மீன் | Sea';
+    const typeBadgeClass = fish.type === 'river' ? 'badge-river' : 'badge-sea';
 
     card.innerHTML = `
         <div class="fish-image-container">
-            <img src="${fish.image}" alt="${fish.nameEnglish}" class="fish-image">
-            <span class="fish-badge ${badgeClass}">${badgeText}</span>
-            ${isPremium ? '<span class="fish-badge badge-premium" style="left: 15px;">⭐ Premium</span>' : ''}
+            <img src="${fish.image}" alt="${fish.nameEnglish}" class="fish-image" onerror="this.src='https://via.placeholder.com/400x220?text=Fish+Image'">
+            <span class="fish-badge fish-type-badge ${typeBadgeClass}">
+                <i class="fas fa-${fish.type === 'river' ? 'water' : 'fish'}"></i> ${fishType}
+            </span>
+            <span class="fish-badge ${badgeClass}" style="right: 15px;">${badgeText}</span>
+            ${isPremium ? '<span class="fish-badge badge-premium" style="bottom: 15px; left: 15px; top: auto;">⭐ சிறப்பு | Premium</span>' : ''}
         </div>
         <div class="fish-body">
             <h3 class="fish-name">${fish.nameTamil}</h3>
             <p class="fish-name-en">${fish.nameEnglish}</p>
-            <div class="fish-price">Rs. ${fish.price}<span style="font-size: 16px;">/Kg</span></div>
+            <div class="fish-price">ரூ. ${fish.price}<span style="font-size: 16px;">/கிலோ</span></div>
             
             ${fish.available ? `
                 <div class="quantity-section">
@@ -98,19 +121,19 @@ function createFishCard(fish) {
                             750g
                         </button>
                         <button class="qty-btn" onclick="selectQuantity(${fish.id}, 1, this)">
-                            1 Kg
+                            1 கிலோ
                         </button>
                         <button class="qty-btn" onclick="selectQuantity(${fish.id}, 1.5, this)">
-                            1.5 Kg
+                            1.5 கிலோ
                         </button>
                         <button class="qty-btn" onclick="showCustomQuantity(${fish.id}, this)">
-                            <i class="fas fa-plus"></i> More
+                            <i class="fas fa-plus"></i> அதிகம்
                         </button>
                     </div>
                     <div class="custom-quantity" id="custom-${fish.id}">
                         <input type="number" 
                                class="custom-input" 
-                               placeholder="Enter Kg (e.g., 2.5)" 
+                               placeholder="கிலோ உள்ளிடவும் (உ.ம். 2.5)" 
                                step="0.25" 
                                min="0.25"
                                onchange="selectCustomQuantity(${fish.id}, this.value)">
@@ -119,7 +142,8 @@ function createFishCard(fish) {
 
                 <div class="price-display">
                     <div class="calculated-price" id="price-${fish.id}">
-                        Select quantity to see price
+                        விலை பார்க்க அளவு தேர்வு செய்க<br>
+                        <small>Select quantity to see price</small>
                     </div>
                 </div>
 
@@ -133,7 +157,7 @@ function createFishCard(fish) {
             ` : `
                 <button class="add-to-cart" disabled>
                     <i class="fas fa-times-circle"></i>
-                    Out of Stock
+                    இல்லை | Out of Stock
                 </button>
             `}
         </div>
@@ -146,25 +170,17 @@ function createFishCard(fish) {
 function selectQuantity(fishId, quantity, button) {
     const card = button.closest('.fish-card');
     
-    // Remove active class from all buttons
     card.querySelectorAll('.qty-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     
-    // Hide custom input
     const customDiv = document.getElementById(`custom-${fishId}`);
     customDiv.classList.remove('show');
     
-    // Add active class to clicked button
     button.classList.add('active');
-    
-    // Store quantity
     selectedQuantities[fishId] = quantity;
-    
-    // Update price display
     updatePriceDisplay(fishId, quantity);
     
-    // Enable add to cart button
     const cartBtn = document.getElementById(`cart-btn-${fishId}`);
     if (cartBtn) cartBtn.disabled = false;
 }
@@ -173,14 +189,12 @@ function selectQuantity(fishId, quantity, button) {
 function showCustomQuantity(fishId, button) {
     const card = button.closest('.fish-card');
     
-    // Remove active from other buttons
     card.querySelectorAll('.qty-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     
     button.classList.add('active');
     
-    // Show custom input
     const customDiv = document.getElementById(`custom-${fishId}`);
     customDiv.classList.add('show');
     customDiv.querySelector('input').focus();
@@ -210,10 +224,10 @@ function updatePriceDisplay(fishId, quantity) {
     if (priceElement) {
         priceElement.innerHTML = `
             <div style="font-size: 14px; color: #666; margin-bottom: 5px;">
-                ${quantity} Kg × Rs. ${fish.price}
+                ${quantity} கிலோ × ரூ. ${fish.price}
             </div>
             <div style="font-size: 24px; font-weight: 700;">
-                Rs. ${totalPrice}
+                ரூ. ${totalPrice}
             </div>
         `;
     }
@@ -225,11 +239,10 @@ function addToCart(fishId) {
     const quantity = selectedQuantities[fishId];
     
     if (!fish || !quantity) {
-        alert('Please select quantity');
+        alert('தயவுசெய்து அளவு தேர்வு செய்யவும் | Please select quantity');
         return;
     }
     
-    // Check if item already in cart
     const existingItemIndex = cart.findIndex(item => item.id === fishId);
     
     if (existingItemIndex > -1) {
@@ -249,8 +262,7 @@ function addToCart(fishId) {
     toggleCart();
     resetFishCard(fishId);
     
-    // Show success message
-    showNotification('✓ Added to cart!');
+    showNotification('✓ கார்ட்டில் சேர்க்கப்பட்டது! | Added to cart!');
 }
 
 // Reset Fish Card After Adding
@@ -264,7 +276,7 @@ function resetFishCard(fishId) {
     
     const priceElement = document.getElementById(`price-${fishId}`);
     if (priceElement) {
-        priceElement.textContent = 'Select quantity to see price';
+        priceElement.innerHTML = 'விலை பார்க்க அளவு தேர்வு செய்க<br><small>Select quantity to see price</small>';
     }
     
     const cartBtn = document.getElementById(`cart-btn-${fishId}`);
@@ -283,21 +295,19 @@ function updateCartUI() {
     const cartItems = document.getElementById('cartItems');
     const totalAmount = document.querySelector('.total-amount');
     
-    // Update badge
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     if (cartBadge) {
         cartBadge.textContent = Math.round(totalItems * 10) / 10;
     }
     
-    // Update cart items
     if (cartItems) {
         if (cart.length === 0) {
             cartItems.innerHTML = `
                 <div class="empty-cart">
                     <i class="fas fa-shopping-cart"></i>
-                    <p>Your cart is empty</p>
+                    <p>உங்கள் கார்ட் காலியாக உள்ளது<br>Your cart is empty</p>
                     <a href="#fish-list" class="btn btn-primary" onclick="toggleCart()">
-                        Browse Fish
+                        மீன் பார்க்க | Browse Fish
                     </a>
                 </div>
             `;
@@ -311,16 +321,16 @@ function updateCartUI() {
                                 <div class="cart-item-name">${item.nameTamil}</div>
                                 <div class="cart-item-name-en">${item.nameEnglish}</div>
                             </div>
-                            <button class="remove-item" onclick="removeFromCart(${index})">
+                            <button class="remove-item" onclick="removeFromCart(${index})" title="நீக்கு | Remove">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
                         <div class="cart-item-details">
-                            <div><strong>Quantity:</strong> ${item.quantity} Kg</div>
-                            <div><strong>Price:</strong> Rs. ${item.price}/Kg</div>
+                            <div><strong>அளவு:</strong> ${item.quantity} கிலோ</div>
+                            <div><strong>விலை:</strong> ரூ. ${item.price}/கிலோ</div>
                         </div>
                         <div class="cart-item-total">
-                            Total: Rs. ${itemTotal}
+                            மொத்தம் | Total: ரூ. ${itemTotal}
                         </div>
                     </div>
                 `;
@@ -328,10 +338,9 @@ function updateCartUI() {
         }
     }
     
-    // Update total
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     if (totalAmount) {
-        totalAmount.textContent = `Rs. ${total.toFixed(2)}`;
+        totalAmount.textContent = `ரூ. ${total.toFixed(2)}`;
     }
 }
 
@@ -339,7 +348,7 @@ function updateCartUI() {
 function removeFromCart(index) {
     cart.splice(index, 1);
     updateCartUI();
-    showNotification('Item removed from cart');
+    showNotification('நீக்கப்பட்டது | Item removed');
 }
 
 // Toggle Cart Sidebar
@@ -356,27 +365,26 @@ function toggleCart() {
 // Checkout via WhatsApp
 function checkout() {
     if (cart.length === 0) {
-        alert('Your cart is empty!');
+        alert('உங்கள் கார்ட் காலியாக உள்ளது! | Your cart is empty!');
         return;
     }
     
-    let message = '🐟 *கலிதீன் மீன் கடை - New Order*\n\n';
+    let message = '🐟 *கலிதீன் மீன் கடை - புதிய ஆர்டர் | New Order*\n\n';
     let total = 0;
     
     cart.forEach((item, index) => {
         const itemTotal = item.price * item.quantity;
         message += `${index + 1}. *${item.nameTamil}* (${item.nameEnglish})\n`;
-        message += `   Quantity: ${item.quantity} Kg\n`;
-        message += `   Price: Rs. ${item.price}/Kg\n`;
-        message += `   Subtotal: Rs. ${itemTotal.toFixed(2)}\n\n`;
+        message += `   அளவு | Quantity: ${item.quantity} கிலோ\n`;
+        message += `   விலை | Price: ரூ. ${item.price}/கிலோ\n`;
+        message += `   துணை மொத்தம் | Subtotal: ரூ. ${itemTotal.toFixed(2)}\n\n`;
         total += itemTotal;
     });
     
-    message += `*Total Amount: Rs. ${total.toFixed(2)}*\n\n`;
-    message += '📍 Please confirm this order.';
+    message += `*மொத்தம் | Total Amount: ரூ. ${total.toFixed(2)}*\n\n`;
+    message += '📍 இந்த ஆர்டரை உறுதிப்படுத்தவும் | Please confirm this order.';
     
-    // Replace with your WhatsApp number
-    const phone = '94XXXXXXXXX';
+    const phone = '94XXXXXXXXX'; // Replace with your number
     const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     
     window.open(whatsappUrl, '_blank');
@@ -384,13 +392,11 @@ function checkout() {
 
 // Filter Fish
 function filterFish(category) {
-    // Update active button
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     event.target.classList.add('active');
     
-    // Filter cards
     const cards = document.querySelectorAll('.fish-card');
     
     cards.forEach(card => {
@@ -400,6 +406,8 @@ function filterFish(category) {
             card.style.display = card.getAttribute('data-available') === 'true' ? 'block' : 'none';
         } else if (category === 'premium') {
             card.style.display = card.getAttribute('data-category') === 'premium' ? 'block' : 'none';
+        } else if (category === 'river' || category === 'sea') {
+            card.style.display = card.getAttribute('data-type') === category ? 'block' : 'none';
         }
     });
 }
@@ -427,10 +435,10 @@ function showNotification(message) {
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s';
         setTimeout(() => notification.remove(), 300);
-    }, 2000);
+    }, 3000);
 }
 
-// Smooth Scroll for Navigation
+// Smooth Scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -449,7 +457,7 @@ function toggleMobileMenu() {
     }
 }
 
-// Add Animation Keyframes
+// Add Animations
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -465,6 +473,7 @@ document.head.appendChild(style);
 
 // Initialize on Page Load
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Page loaded, initializing...');
     loadFishData();
     updateCartUI();
 });
