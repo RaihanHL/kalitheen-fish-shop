@@ -1,255 +1,284 @@
-const CONFIG = {
-  shopNameTa: "காலிதீன் மீன் கடை",
-  shopSubNameTa: "(சாதிக் மீன் கடை)",
-  address: "Baduriya Road, Kattankudy, Batticaloa, Sri Lanka",
-  takeawayOnly: true,
-  openingHours: "06:30 AM - 12:00 PM",
-  phone: "+94771988353",
-  whatsappBase: "https://wa.me/94771988353",
-  mapLink: "https://maps.app.goo.gl/SKHM7fahTSM2FwdFA?g_st=aw",
-};
-
-const fallbackFishData = [
-  { id: "sallal-seththal", name_ta: "சல்லல் / செத்தல்", name_en: "Sallal / Seththal", price_lkr_per_kg: 1400, available: true },
-  { id: "golden-japan", name_ta: "கோல்டன் / ஜப்பான்", name_en: "Golden / Japan", price_lkr_per_kg: 1200, available: true },
-  { id: "mural", name_ta: "முரல்", name_en: "Murrel (Snakehead)", price_lkr_per_kg: 2800, available: true },
-  { id: "otti", name_ta: "ஒட்டி", name_en: "Otti", price_lkr_per_kg: 1600, available: true },
-  { id: "velraal", name_ta: "வெள்றால்", name_en: "Velraal", price_lkr_per_kg: 1900, available: true },
-  { id: "manaraal", name_ta: "மனறால்", name_en: "Manaraal", price_lkr_per_kg: 1800, available: true },
-  { id: "semperaal", name_ta: "சேம்புறால்", name_en: "Semberaal", price_lkr_per_kg: 2200, available: true },
-  { id: "kilakkan", name_ta: "கிழக்கன்", name_en: "Kilakkan", price_lkr_per_kg: 1500, available: true },
-  { id: "madraal", name_ta: "மட்றால்", name_en: "Madraal", price_lkr_per_kg: 1700, available: true },
-  { id: "neththali-ayyammaasi", name_ta: "நெத்தலி / அய்யம்மாசி", name_en: "Anchovy", price_lkr_per_kg: 1300, available: true },
+// Fish data
+const fishData = [
+    {
+        id: 1,
+        nameTamil: "சுறா",
+        nameEnglish: "Shark",
+        price: 850,
+        image: "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?w=400",
+        available: true
+    },
+    {
+        id: 2,
+        nameTamil: "வஞ்சிரம்",
+        nameEnglish: "Seer Fish",
+        price: 950,
+        image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400",
+        available: true
+    },
+    {
+        id: 3,
+        nameTamil: "கெண்டை",
+        nameEnglish: "Mackerel",
+        price: 450,
+        image: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?w=400",
+        available: true
+    },
+    {
+        id: 4,
+        nameTamil: "சால்மன்",
+        nameEnglish: "Salmon",
+        price: 1200,
+        image: "https://images.unsplash.com/photo-1485704686097-ed47f7263ca4?w=400",
+        available: false
+    },
+    {
+        id: 5,
+        nameTamil: "ஆயிரா",
+        nameEnglish: "Pomfret",
+        price: 750,
+        image: "https://images.unsplash.com/photo-1580950113276-f1b539d3b7be?w=400",
+        available: true
+    },
+    {
+        id: 6,
+        nameTamil: "இறால்",
+        nameEnglish: "Prawns",
+        price: 1100,
+        image: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=400",
+        available: true
+    }
 ];
 
-let fishItems = [];
-const qtyState = {};
+// Cart array
+let cart = [];
 
-const elements = {
-  fishTableWrap: document.getElementById("fishTableWrap"),
-  fishCardsWrap: document.getElementById("fishCardsWrap"),
-  reserveBtn: document.getElementById("reserveBtn"),
-  reserveForm: document.getElementById("reserveForm"),
-  formError: document.getElementById("formError"),
-  pickupTime: document.getElementById("pickupTime"),
-  cuttingOption: document.getElementById("cuttingOption"),
-  customerName: document.getElementById("customerName"),
-  whatsappHeaderBtn: document.getElementById("whatsappHeaderBtn"),
-  callHeaderBtn: document.getElementById("callHeaderBtn"),
-  mapHeaderBtn: document.getElementById("mapHeaderBtn"),
-  directionBtn: document.getElementById("directionBtn"),
-  footerPhone: document.getElementById("footerPhone"),
-  heroHours: document.getElementById("heroHours"),
-  heroAddress: document.getElementById("heroAddress"),
-  locationAddress: document.getElementById("locationAddress"),
-  footerHours: document.getElementById("footerHours"),
-  footerAddress: document.getElementById("footerAddress"),
-};
+// Render fish cards
+function renderFishCards() {
+    const fishGrid = document.getElementById('fishGrid');
+    fishGrid.innerHTML = '';
 
-function setStaticLinks() {
-  elements.whatsappHeaderBtn.href = CONFIG.whatsappBase;
-  elements.whatsappHeaderBtn.target = "_blank";
-  elements.whatsappHeaderBtn.rel = "noopener noreferrer";
-  elements.callHeaderBtn.href = `tel:${CONFIG.phone}`;
-  elements.footerPhone.href = `tel:${CONFIG.phone}`;
-  elements.footerPhone.textContent = CONFIG.phone;
-  elements.mapHeaderBtn.href = CONFIG.mapLink;
-  elements.mapHeaderBtn.target = "_blank";
-  elements.mapHeaderBtn.rel = "noopener noreferrer";
-  elements.directionBtn.href = CONFIG.mapLink;
-  elements.heroHours.textContent = CONFIG.openingHours;
-  elements.footerHours.textContent = CONFIG.openingHours;
-  elements.heroAddress.textContent = CONFIG.address;
-  elements.locationAddress.textContent = CONFIG.address;
-  elements.footerAddress.textContent = CONFIG.address;
+    fishData.forEach(fish => {
+        const card = document.createElement('div');
+        card.className = 'fish-card';
+        card.innerHTML = `
+            <img src="${fish.image}" alt="${fish.nameEnglish}" class="fish-image">
+            <div class="fish-info">
+                <h3 class="fish-name">${fish.nameTamil} | ${fish.nameEnglish}</h3>
+                <p class="fish-price">Rs. ${fish.price}/Kg</p>
+                <span class="fish-availability ${fish.available ? 'available' : 'out-of-stock'}">
+                    ${fish.available ? 'இருப்பில் உள்ளது | Available' : 'இல்லை | Out of Stock'}
+                </span>
+                
+                ${fish.available ? `
+                    <div class="quantity-selector">
+                        <label>அளவு | Quantity:</label>
+                        <div class="quantity-buttons">
+                            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.25, this)">250g</button>
+                            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.5, this)">500g</button>
+                            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.75, this)">750g</button>
+                            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 1, this)">1Kg</button>
+                            <button class="qty-btn" onclick="showCustomQuantity(${fish.id}, this)">More</button>
+                        </div>
+                        <div class="custom-qty" id="custom-${fish.id}">
+                            <input type="number" step="0.25" min="0.25" placeholder="Enter Kg" 
+                                   onchange="selectCustomQuantity(${fish.id}, this.value)">
+                        </div>
+                    </div>
+                    
+                    <div class="price-display">
+                        <span class="calculated-price" id="price-${fish.id}">Select quantity</span>
+                    </div>
+                    
+                    <button class="add-to-cart-btn" id="cart-btn-${fish.id}" disabled onclick="addToCart(${fish.id})">
+                        <i class="fas fa-shopping-cart"></i>
+                        கார்ட்டில் சேர் | Add to Cart
+                    </button>
+                ` : ''}
+            </div>
+        `;
+        fishGrid.appendChild(card);
+    });
 }
 
-async function loadFishData() {
-  try {
-    const response = await fetch('fish.json?v=' + Date.now(), { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error("Failed to load fish.json");
+// Selected quantities
+let selectedQuantities = {};
+
+// Select quantity
+function selectQuantity(fishId, quantity, button) {
+    // Remove active class from all buttons in this card
+    const card = button.closest('.fish-card');
+    card.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Hide custom input
+    const customDiv = document.getElementById(`custom-${fishId}`);
+    customDiv.style.display = 'none';
+    
+    // Add active class to clicked button
+    button.classList.add('active');
+    
+    // Store quantity
+    selectedQuantities[fishId] = quantity;
+    
+    // Update price display
+    updatePriceDisplay(fishId, quantity);
+    
+    // Enable add to cart button
+    document.getElementById(`cart-btn-${fishId}`).disabled = false;
+}
+
+// Show custom quantity input
+function showCustomQuantity(fishId, button) {
+    const card = button.closest('.fish-card');
+    card.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    
+    const customDiv = document.getElementById(`custom-${fishId}`);
+    customDiv.style.display = 'block';
+    customDiv.querySelector('input').focus();
+}
+
+// Select custom quantity
+function selectCustomQuantity(fishId, quantity) {
+    quantity = parseFloat(quantity);
+    if (quantity >= 0.25) {
+        selectedQuantities[fishId] = quantity;
+        updatePriceDisplay(fishId, quantity);
+        document.getElementById(`cart-btn-${fishId}`).disabled = false;
     }
-    const data = await response.json();
-    if (!Array.isArray(data) || data.length === 0) {
-      throw new Error("Invalid fish data");
+}
+
+// Update price display
+function updatePriceDisplay(fishId, quantity) {
+    const fish = fishData.find(f => f.id === fishId);
+    const totalPrice = (fish.price * quantity).toFixed(2);
+    document.getElementById(`price-${fishId}`).textContent = `Rs. ${totalPrice} (${quantity} Kg)`;
+}
+
+// Add to cart
+function addToCart(fishId) {
+    const fish = fishData.find(f => f.id === fishId);
+    const quantity = selectedQuantities[fishId];
+    
+    if (!quantity) {
+        alert('Please select quantity');
+        return;
     }
-    fishItems = data;
-  } catch (error) {
-    fishItems = fallbackFishData;
-  }
-
-  fishItems.forEach((item) => {
-    qtyState[item.id] = 0;
-  });
-}
-
-function availabilityBadge(available) {
-  if (available) {
-    return '<span class="badge available">இன்று உள்ளது | Available</span>';
-  }
-  return '<span class="badge unavailable">இன்று இல்லை | Not available</span>';
-}
-
-function tableMarkup(items) {
-  const rows = items
-    .map((item) => {
-      const isDisabled = !item.available ? "disabled" : "";
-      return `
-        <tr>
-          <td>
-            ${item.name_ta}
-            <span class="name-en">${item.name_en || ""}</span>
-          </td>
-          <td>Rs ${Number(item.price_lkr_per_kg).toLocaleString()}</td>
-          <td>${availabilityBadge(item.available)}</td>
-          <td>
-            <input class="qty-input" type="number" min="0" step="0.25" value="0" data-id="${item.id}" ${isDisabled} aria-label="${item.name_ta} quantity in KG" />
-          </td>
-        </tr>
-      `;
-    })
-    .join("");
-
-  return `
-    <table>
-      <thead>
-        <tr>
-          <th>மீன் பெயர் | Fish</th>
-          <th>விலை (Rs/Kg) | Price (Rs/Kg)</th>
-          <th>இருப்பு | Availability</th>
-          <th>அளவு (Kg) | Quantity (Kg)</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-  `;
-}
-
-function cardMarkup(items) {
-  return items
-    .map((item) => {
-      const isDisabled = !item.available ? "disabled" : "";
-      return `
-      <article class="fish-item">
-        <p><strong>${item.name_ta}</strong> <span class="name-en">${item.name_en || ""}</span></p>
-        <p>விலை | Price: Rs ${Number(item.price_lkr_per_kg).toLocaleString()} / Kg</p>
-        <p>${availabilityBadge(item.available)}</p>
-        <label>
-          அளவு (Kg) | Quantity (Kg)
-          <input class="qty-input" type="number" min="0" step="0.25" value="0" data-id="${item.id}" ${isDisabled} aria-label="${item.name_ta} quantity in KG" />
-        </label>
-      </article>
-      `;
-    })
-    .join("");
-}
-
-function renderFish() {
-  elements.fishTableWrap.innerHTML = tableMarkup(fishItems);
-  elements.fishCardsWrap.innerHTML = cardMarkup(fishItems);
-}
-
-function syncQtyInputs(itemId, value) {
-  document.querySelectorAll(`.qty-input[data-id="${itemId}"]`).forEach((input) => {
-    if (document.activeElement !== input) {
-      input.value = value;
+    
+    // Check if item already in cart
+    const existingItem = cart.find(item => item.id === fishId);
+    
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.push({
+            id: fish.id,
+            nameTamil: fish.nameTamil,
+            nameEnglish: fish.nameEnglish,
+            price: fish.price,
+            quantity: quantity
+        });
     }
-  });
+    
+    updateCart();
+    openCart();
+    
+    // Reset selection
+    delete selectedQuantities[fishId];
+    const card = document.querySelector(`#cart-btn-${fishId}`).closest('.fish-card');
+    card.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`price-${fishId}`).textContent = 'Select quantity';
+    document.getElementById(`cart-btn-${fishId}`).disabled = true;
+    const customDiv = document.getElementById(`custom-${fishId}`);
+    customDiv.style.display = 'none';
+    customDiv.querySelector('input').value = '';
 }
 
-function handleQtyInput(event) {
-  const target = event.target;
-  if (!target.classList.contains("qty-input")) {
-    return;
-  }
-
-  const itemId = target.dataset.id;
-  let value = Number.parseFloat(target.value);
-  if (!Number.isFinite(value) || value < 0) {
-    value = 0;
-  }
-
-  const normalized = Math.round(value * 100) / 100;
-  qtyState[itemId] = normalized;
-  syncQtyInputs(itemId, normalized.toString());
+// Update cart display
+function updateCart() {
+    const cartItems = document.getElementById('cartItems');
+    const cartCount = document.querySelector('.cart-count');
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="empty-cart"><i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 10px;"></i><p>Your cart is empty</p></div>';
+        cartCount.textContent = '0';
+        document.querySelector('.total-price').textContent = 'Rs. 0';
+        return;
+    }
+    
+    let totalItems = 0;
+    let totalPrice = 0;
+    
+    cartItems.innerHTML = '';
+    
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        totalItems += item.quantity;
+        totalPrice += itemTotal;
+        
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <button class="remove-item" onclick="removeFromCart(${index})">×</button>
+            <h4>${item.nameTamil} | ${item.nameEnglish}</h4>
+            <p>Quantity: ${item.quantity} Kg</p>
+            <p>Price: Rs. ${item.price}/Kg</p>
+            <p style="font-weight: bold; color: #667eea;">Total: Rs. ${itemTotal.toFixed(2)}</p>
+        `;
+        cartItems.appendChild(cartItem);
+    });
+    
+    cartCount.textContent = Math.round(totalItems);
+    document.querySelector('.total-price').textContent = `Rs. ${totalPrice.toFixed(2)}`;
 }
 
-function selectedItemsWithTotal() {
-  const selected = fishItems
-    .map((item) => {
-      const qty = qtyState[item.id] || 0;
-      const lineTotal = qty * Number(item.price_lkr_per_kg);
-      return { ...item, qty, lineTotal };
-    })
-    .filter((item) => item.qty > 0);
-
-  const total = selected.reduce((sum, item) => sum + item.lineTotal, 0);
-  return { selected, total };
+// Remove from cart
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
 }
 
-function buildWhatsAppMessage() {
-  const orderDay = elements.reserveForm.querySelector('input[name="orderDay"]:checked')?.value || "இன்று | Today";
-  const pickupTime = elements.pickupTime.value.trim() || "06:30 - 12:00";
-  const cuttingOption = elements.cuttingOption.value;
-  const customerName = elements.customerName.value.trim();
-  const { selected, total } = selectedItemsWithTotal();
-
-  if (selected.length === 0) {
-    elements.formError.textContent = "குறைந்தது ஒரு மீன் அளவு தேர்வு செய்யவும் | Please select at least one fish quantity.";
-    return null;
-  }
-
-  elements.formError.textContent = "";
-
-  const itemLines = selected
-    .map((item, index) => {
-      return `${index + 1}. ${item.name_ta} (${item.name_en || "Fish"}) - ${item.qty} Kg x Rs ${item.price_lkr_per_kg} = Rs ${item.lineTotal.toFixed(2)}`;
-    })
-    .join("\n");
-
-  const message = [
-    `வணக்கம் ${CONFIG.shopNameTa} ${CONFIG.shopSubNameTa}`,
-    "",
-    "முன்பதிவு விவரம் | Reserve Details",
-    `Takeaway மட்டும்: ${CONFIG.takeawayOnly ? "ஆம் (Delivery இல்லை)" : "இல்லை"}`,
-    `எப்போது | Day: ${orderDay}`,
-    `எடுத்துச் செல்லும் நேரம் | Pickup Time: ${pickupTime}`,
-    `வெட்டும் வகை | Cutting: ${cuttingOption}`,
-    `வாடிக்கையாளர் பெயர் | Customer: ${customerName || "-"}`,
-    "",
-    "தேர்ந்தெடுத்த மீன்கள் | Selected Fish:",
-    itemLines,
-    "",
-    `மொத்த கணக்கீடு | Total Estimate: Rs ${total.toFixed(2)}`,
-    "",
-    `கடை | Shop: ${CONFIG.shopNameTa} ${CONFIG.shopSubNameTa}`,
-    `முகவரி | Address: ${CONFIG.address}`,
-  ].join("\n");
-
-  return message;
+// Open cart
+function openCart() {
+    document.getElementById('cartSidebar').classList.add('open');
 }
 
-function submitReserve() {
-  const message = buildWhatsAppMessage();
-  if (!message) {
-    return;
-  }
-  const url = `${CONFIG.whatsappBase}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank");
+// Close cart
+function closeCart() {
+    document.getElementById('cartSidebar').classList.remove('open');
 }
 
-function attachEvents() {
-  elements.fishTableWrap.addEventListener("input", handleQtyInput);
-  elements.fishCardsWrap.addEventListener("input", handleQtyInput);
-  elements.reserveBtn.addEventListener("click", submitReserve);
+// Checkout
+function checkout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    let message = 'கலிதீன் மீன் கடை - Order:\n\n';
+    let total = 0;
+    
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        message += `${item.nameTamil} (${item.nameEnglish})\n`;
+        message += `Quantity: ${item.quantity} Kg × Rs. ${item.price} = Rs. ${itemTotal.toFixed(2)}\n\n`;
+        total += itemTotal;
+    });
+    
+    message += `Total: Rs. ${total.toFixed(2)}`;
+    
+    // WhatsApp link (replace with your number)
+    const phone = '94771988353'; // Add your WhatsApp number
+    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    
+    window.open(whatsappUrl, '_blank');
 }
 
-async function init() {
-  setStaticLinks();
-  await loadFishData();
-  renderFish();
-  attachEvents();
-}
+// Cart icon click
+document.querySelector('.cart-icon').addEventListener('click', (e) => {
+    e.preventDefault();
+    openCart();
+});
 
-init();
+// Initialize
+renderFishCards();
