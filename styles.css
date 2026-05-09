@@ -1,3 +1,6 @@
+.custom-quantity { display: none; }
+.custom-quantity.show { display: block; }
+
 :root {
     --primary-color: #2563eb;
     --secondary-color: #7c3aed;
