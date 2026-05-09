@@ -1,118 +1,114 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ta">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>காலிதீன் மீன் கடை | (சாதிக் மீன் கடை)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header class="site-header" id="top">
-      <div class="container header-inner">
-        <div class="brand-block">
-          <p class="brand-main">காலிதீன் மீன் கடை</p>
-          <p class="brand-sub">(சாதிக் மீன் கடை)</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>கலிதீன் மீன் கடை | Kalitheen Fish Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-fish"></i>
+                <h1>கலிதீன் மீன் கடை</h1>
+            </div>
+            <nav>
+                <a href="#home">முகப்பு</a>
+                <a href="#fish-list">மீன் பட்டியல்</a>
+                <a href="#about">எங்களை பற்றி</a>
+                <a href="#contact">தொடர்பு</a>
+                <a href="#cart" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </nav>
         </div>
-        <nav class="header-actions" aria-label="Quick actions">
-          <a id="whatsappHeaderBtn" class="action-btn" href="https://wa.me/94771988353" target="_blank" rel="noopener noreferrer">WhatsApp-ல் முன்பதிவு | Reserve on WhatsApp</a>
-          <a id="callHeaderBtn" class="action-btn" href="tel:+94771988353">இப்போது அழைக்க | Call Now</a>
-          <a id="mapHeaderBtn" class="action-btn" href="#location">கடை இடம் | Shop Location (Map)</a>
-        </nav>
-      </div>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="container hero-content">
-          <p class="eyebrow">ஆற்றுமீன் (River Fish) | Takeaway மட்டும் (Delivery இல்லை)</p>
-          <h1>காலிதீன் மீன் கடை</h1>
-          <p class="hero-sub">(சாதிக் மீன் கடை)</p>
-          <p class="hero-meta">நேரம் | Hours: <strong id="heroHours">06:30 AM - 12:00 PM</strong></p>
-          <p class="hero-meta">முகவரி | Address: <span id="heroAddress">Baduriya Road, Kattankudy, Batticaloa, Sri Lanka</span></p>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>புதிய மீன் தினமும்!</h2>
+            <p>Fresh Fish Daily!</p>
+            <a href="#fish-list" class="cta-button">இன்றைய மீன் பார்க்க</a>
         </div>
-      </section>
+    </section>
 
-      <section class="section" id="fish-list">
+    <!-- Fish List Section -->
+    <section id="fish-list" class="fish-section">
         <div class="container">
-          <h2>இன்றைய மீன் பட்டியல் | Today's Fish List</h2>
-          <p class="section-note">Tamil | English</p>
-          <div id="fishTableWrap" class="fish-table-wrap" aria-live="polite"></div>
-          <div id="fishCardsWrap" class="fish-cards-wrap" aria-live="polite"></div>
-        </div>
-      </section>
-
-      <section class="section" id="reserve">
-        <div class="container">
-          <h2>முன்பதிவு விவரங்கள் | Reserve Details</h2>
-          <form id="reserveForm" novalidate>
-            <fieldset class="order-type">
-              <legend>எப்போது? | When?</legend>
-              <label>
-                <input type="radio" name="orderDay" value="இன்று | Today" checked />
-                இன்று | Today
-              </label>
-              <label>
-                <input type="radio" name="orderDay" value="நாளை காலை | Tomorrow morning (Pre-order)" />
-                நாளை காலை | Tomorrow morning (Pre-order)
-              </label>
-            </fieldset>
-
-            <div class="form-grid">
-              <label>
-                எடுத்துச் செல்லும் நேரம் | Pickup Time
-                <input id="pickupTime" type="text" placeholder="06:30 - 12:00" />
-              </label>
-
-              <label>
-                வெட்டும் வகை | Cutting Option
-                <select id="cuttingOption">
-                  <option value="Whole">Whole</option>
-                  <option value="Cleaned">Cleaned</option>
-                  <option value="Curry cut">Curry cut</option>
-                  <option value="Slice">Slice</option>
-                  <option value="Fillet">Fillet</option>
-                </select>
-              </label>
-
-              <label>
-                வாடிக்கையாளர் பெயர் (விருப்பம்) | Customer Name (Optional)
-                <input id="customerName" type="text" placeholder="பெயர் / Name" />
-              </label>
+            <h2 class="section-title">இன்றைய மீன் பட்டியல் | Today's Fish List</h2>
+            
+            <div class="fish-grid" id="fishGrid">
+                <!-- Fish items will be generated by JavaScript -->
             </div>
+        </div>
+    </section>
 
-            <p id="formError" class="form-error" role="alert"></p>
-            <button id="reserveBtn" type="button" class="reserve-btn">
-              WhatsApp-ல் முன்பதிவு அனுப்பவும் | Send Reserve on WhatsApp
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> உங்கள் கார்ட்</h3>
+            <button class="close-cart" onclick="closeCart()">
+                <i class="fas fa-times"></i>
             </button>
-          </form>
         </div>
-      </section>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>மொத்தம் | Total:</span>
+                <span class="total-price">Rs. 0</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">
+                <i class="fas fa-check"></i> ஆர்டர் செய்ய
+            </button>
+        </div>
+    </div>
 
-      <section class="section location" id="location">
+    <!-- About Section -->
+    <section id="about" class="about-section">
         <div class="container">
-          <h2>கடை இடம் | Shop Location</h2>
-          <p id="locationAddress">Baduriya Road, Kattankudy, Batticaloa, Sri Lanka</p>
-          <a id="directionBtn" class="direction-btn" target="_blank" rel="noopener noreferrer" href="#">
-            வழிகாட்டி | Get Directions
-          </a>
+            <h2 class="section-title">எங்களை பற்றி | About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>கலிதீன் மீன் கடையில் தினமும் புதிய மீன் கிடைக்கும். எங்கள் மீன்கள் நேரடியாக கடலில் இருந்து வருகின்றன.</p>
+                    <p>At Kalitheen Fish Shop, we provide fresh fish daily, directly from the sea to your table.</p>
+                </div>
+            </div>
         </div>
-      </section>
-    </main>
+    </section>
 
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <p><strong>Phone / WhatsApp:</strong> <a id="footerPhone" href="tel:+94771988353">+94771988353</a></p>
-        <p><strong>Hours:</strong> <span id="footerHours">06:30 AM - 12:00 PM</span></p>
-        <p><strong>Address:</strong> <span id="footerAddress">Baduriya Road, Kattankudy, Batticaloa, Sri Lanka</span></p>
-      </div>
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">தொடர்பு | Contact Us</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p>+94 XX XXX XXXX</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>கலிதீன் மீன் கடை, இலங்கை</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <p>காலை 6:00 - மாலை 6:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 கலிதீன் மீன் கடை | Kalitheen Fish Shop. All rights reserved.</p>
     </footer>
 
-    <script type="module" src="app.js"></script>
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>
