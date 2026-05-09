@@ -408,3 +408,41 @@ function selectCustomAmount(fishId, amountValue) {
 
   if (cartBtn) cartBtn.disabled = false;
 }
+
+let selectedAmounts = {};
+
+function showCustomQuantity(fishId, button) {
+  const card = button.closest(".fish-card");
+  card.querySelectorAll(".qty-btn").forEach(btn => btn.classList.remove("active"));
+  button.classList.add("active");
+
+  const customDiv = document.getElementById(`custom-${fishId}`);
+  customDiv.classList.add("show");
+  const input = customDiv.querySelector("input");
+  if (input) input.focus();
+}
+
+function selectCustomAmount(fishId, amountValue) {
+  const fish = fishData.find(f => f.id === fishId);
+  const amount = parseFloat(amountValue);
+
+  const priceEl = document.getElementById(`price-${fishId}`);
+  const cartBtn = document.getElementById(`cart-btn-${fishId}`);
+
+  if (!fish || !isFinite(amount) || amount <= 0) {
+    delete selectedQuantities[fishId];
+    delete selectedAmounts[fishId];
+    if (priceEl) priceEl.textContent = "பணத்தை உள்ளிடவும்";
+    if (cartBtn) cartBtn.disabled = true;
+    return;
+  }
+
+  const qtyKg = amount / fish.price;
+  selectedQuantities[fishId] = qtyKg;
+  selectedAmounts[fishId] = amount;
+
+  if (priceEl) {
+    priceEl.innerHTML = `ரூ. ${amount.toFixed(2)} = <strong>${qtyKg.toFixed(2)} Kg</strong>`;
+  }
+  if (cartBtn) cartBtn.disabled = false;
+}
