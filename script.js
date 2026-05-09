@@ -89,87 +89,77 @@ function loadFishData() {
 }
 
 // Render fish cards
-function renderFishCards(fishList) {
-    const fishGrid = document.getElementById('fishGrid');
-    
-    if (!fishGrid) {
-        console.error('fishGrid element not found!');
-        return;
-    }
-
-    if (fishList.length === 0) {
-        fishGrid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No fish available</p>';
-        return;
-    }
-
-    fishGrid.innerHTML = '';
-
-    fishList.forEach(fish => {
-        const card = createFishCard(fish);
-        fishGrid.appendChild(card);
-    });
-
-    console.log('Rendered', fishList.length, 'fish cards');
-}
-
-// Create fish card
 function createFishCard(fish) {
-    const card = document.createElement('div');
-    card.className = 'fish-card';
-    card.setAttribute('data-category', fish.category);
-    card.setAttribute('data-available', fish.available);
-    card.setAttribute('data-type', fish.type);
+  const card = document.createElement("div");
+  card.className = "fish-card";
+  card.setAttribute("data-category", fish.category || "regular");
+  card.setAttribute("data-available", String(!!fish.available));
+  card.setAttribute("data-type", fish.type || "river");
 
-    const badgeClass = fish.available ? 'badge-available' : 'badge-out';
-    const badgeText = fish.available ? `✓ ${fish.stock}` : '✗ Out of Stock';
-    const isPremium = fish.category === 'premium';
-    const fishType = fish.type === 'river' ? 'ஆற்று மீன்' : 'கடல் மீன்';
-    const typeBadgeClass = fish.type === 'river' ? 'badge-river' : 'badge-sea';
+  const badgeClass = fish.available ? "badge-available" : "badge-out";
+  const badgeText = fish.available ? `✓ ${fish.stock || "Available"}` : "✗ இல்லை | Out of Stock";
+  const typeBadgeClass = (fish.type === "sea") ? "badge-sea" : "badge-river";
+  const fishTypeText = (fish.type === "sea") ? "கடல் மீன் | Sea" : "ஆற்று மீன் | River";
 
-    card.innerHTML = `
-        <div class="fish-image-container">
-            <img src="${fish.image}" alt="${fish.nameEnglish}" class="fish-image">
-            <span class="fish-badge fish-type-badge ${typeBadgeClass}">
-                ${fishType}
-            </span>
-            <span class="fish-badge ${badgeClass}" style="right: 15px;">${badgeText}</span>
-            ${isPremium ? '<span class="fish-badge badge-premium" style="bottom: 15px; left: 15px; top: auto;">⭐ Premium</span>' : ''}
+  card.innerHTML = `
+    <div class="fish-image-container">
+      <img class="fish-image" src="${fish.image || ""}" alt="${fish.nameEnglish || fish.nameTamil || "Fish"}"
+           onerror="this.src='https://via.placeholder.com/600x400?text=Fish'">
+      <span class="fish-badge fish-type-badge ${typeBadgeClass}">${fishTypeText}</span>
+      <span class="fish-badge ${badgeClass}" style="right: 15px;">${badgeText}</span>
+    </div>
+
+    <div class="fish-body">
+      <h3 class="fish-name">${fish.nameTamil || ""}</h3>
+      <p class="fish-name-en">${fish.nameEnglish || ""}</p>
+      <div class="fish-price">ரூ. ${fish.price}<span style="font-size:16px">/கிலோ</span></div>
+
+      ${
+        fish.available
+          ? `
+        <div class="quantity-section">
+          <label class="quantity-label">அளவு | Quantity</label>
+          <div class="quantity-buttons">
+            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.25, this)">250g</button>
+            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.5, this)">500g</button>
+            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.75, this)">750g</button>
+            <button class="qty-btn" onclick="selectQuantity(${fish.id}, 1, this)">1Kg</button>
+            <button class="qty-btn" onclick="showCustomQuantity(${fish.id}, this)">More</button>
+          </div>
+
+          <div class="custom-quantity" id="custom-${fish.id}">
+            <input
+              type="number"
+              class="custom-input"
+              placeholder="பணத்தினை உள்ளிடவும் (ரூ.) | Enter Amount (Rs)"
+              min="1"
+              step="1"
+              oninput="selectCustomAmount(${fish.id}, this.value)"
+            >
+            <small style="display:block;margin-top:6px;opacity:.75;">
+              நீங்கள் உள்ளிடும் தொகைக்கு ஏற்ப கிலோ கணக்கிடப்படும்.
+            </small>
+          </div>
         </div>
-        <div class="fish-body">
-            <h3 class="fish-name">${fish.nameTamil}</h3>
-            <p class="fish-name-en">${fish.nameEnglish}</p>
-            <div class="fish-price">ரூ. ${fish.price}<span style="font-size: 16px;">/கிலோ</span></div>
-            
-            ${fish.available ? `
-                <div class="quantity-section">
-                    <label class="quantity-label">அளவு | Quantity</label>
-                    <div class="quantity-buttons">
-                        <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.25, this)">250g</button>
-                        <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.5, this)">500g</button>
-                        <button class="qty-btn" onclick="selectQuantity(${fish.id}, 0.75, this)">750g</button>
-                        <button class="qty-btn" onclick="selectQuantity(${fish.id}, 1, this)">1 கிலோ</button>
-                        <button class="qty-btn" onclick="selectQuantity(${fish.id}, 1.5, this)">1.5 கிலோ</button>
-                        <button class="qty-btn" onclick="showCustomQuantity(${fish.id}, this)">+ More</button>
-                    </div>
-                    <button class="qty-btn" onclick="showCustomQuantity(${fish.id}, this)">
-  <i class="fas fa-plus"></i> More
-</button>
 
-<div class="custom-quantity" id="custom-${fish.id}">
-  <input
-    type="number"
-    class="custom-input"
-    placeholder="பணத்தினை உள்ளிடவும் (ரூ.) | Enter Amount (Rs)"
-    min="1"
-    step="1"
-    oninput="selectCustomAmount(${fish.id}, this.value)"
-  >
-  <small style="display:block;margin-top:6px;opacity:.75;">
-    நீங்கள் உள்ளிடும் தொகைக்கேற்ப (Rs/Kg) கிலோ கணக்கிடப்படும்.
-  </small>
-</div>
-';
-    return card;
+        <div class="price-display">
+          <div class="calculated-price" id="price-${fish.id}">
+            விலை பார்க்க அளவு தேர்வு செய்க
+          </div>
+        </div>
+
+        <button class="add-to-cart" id="cart-btn-${fish.id}" disabled onclick="addToCart(${fish.id})">
+          கார்ட்டில் சேர் | Add to Cart
+        </button>
+        `
+          : `
+        <button class="add-to-cart" disabled>இல்லை | Out of Stock</button>
+        `
+      }
+    </div>
+  `;
+
+  return card;
 }
               
 // Select quantity
