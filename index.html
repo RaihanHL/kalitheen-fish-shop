@@ -1,101 +1,123 @@
-<!-- Hero Section - UPDATED -->
-<section id="home" class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <div class="hero-badge">
-            <i class="fas fa-water"></i>
-            <span>ஆற்று மீன் | River Fish Specialist</span>
-        </div>
-        <h1 class="hero-title">
-            தினமும் புதிய ஆற்று மீன்
-            <span class="gradient-text">Fresh River Fish Daily</span>
-        </h1>
-        <p class="hero-subtitle">
-            ஆற்றில் இருந்து நேரடியாக உங்கள் வீட்டிற்கு<br>
-            Direct from River to Your Home
-        </p>
-        <div class="hero-buttons">
-            <a href="#fish-list" class="btn btn-primary">
-                <i class="fas fa-fish"></i>
-                இன்றைய மீன் பார்க்க | View Today's Fish
-            </a>
-            <a href="#contact" class="btn btn-outline">
-                <i class="fas fa-phone"></i>
-                தொடர்பு கொள்ள | Contact Us
-            </a>
-        </div>
-        <div class="hero-features">
-            <div class="feature-item">
-                <i class="fas fa-check-circle"></i>
-                <span>100% புதிய | Fresh</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-truck"></i>
-                <span>விரைவு விநியோகம் | Fast Delivery</span>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-shield-alt"></i>
-                <span>தர உத்தரவாதம் | Quality Guaranteed</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Fish List Section - UPDATED -->
-<section id="fish-list" class="fish-section">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-badge">
-                <i class="fas fa-fish"></i>
-                <span>இன்றைய வருகை | Today's Catch</span>
-            </div>
-            <h2 class="section-title">
-                இன்றைய மீன் பட்டியல்
-                <span class="gradient-text">Today's Fish List</span>
-            </h2>
-            <p class="section-subtitle">காலை பிடியில் இருந்து புதிய வருகை | Fresh arrivals from the morning catch</p>
-        </div>
-
-        <div class="filters-container">
-            <button class="filter-btn active" onclick="filterFish('all')">
-                <i class="fas fa-th"></i> அனைத்தும் | All Fish
-            </button>
-            <button class="filter-btn" onclick="filterFish('river')">
-                <i class="fas fa-water"></i> ஆற்று மீன் | River Fish
-            </button>
-            <button class="filter-btn" onclick="filterFish('sea')">
-                <i class="fas fa-fish"></i> கடல் மீன் | Sea Fish
-            </button>
-            <button class="filter-btn" onclick="filterFish('available')">
-                <i class="fas fa-check"></i> கிடைக்கும் | Available
-            </button>
-            <button class="filter-btn" onclick="filterFish('premium')">
-                <i class="fas fa-star"></i> சிறப்பு | Premium
-            </button>
-        </div>
-
-        <div class="fish-grid" id="fishGrid">
-            <!-- Fish cards will be dynamically loaded -->
-            <div class="loading-message">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>மீன் பட்டியலை ஏற்றுகிறது...<br>Loading fish list...</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- About Section - UPDATED -->
-<section id="about" class="about-section">
-    <div class="container">
-        <div class="about-grid">
-            <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1590523278191-995cbcda646b?w=800" alt="River Fish">
-                <div class="about-badge">
-                    <div class="badge-number">15+</div>
-                    <div class="badge-text">வருட அனுபவம்<br>Years Experience</div>
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>கலிதீன் மீன் கடை | Kalitheen Fish Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-fish"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>கலிதீன் மீன் கடை</h1>
+                    <p>Kalitheen Fish Market</p>
                 </div>
             </div>
-            <div class="about-content">
+            
+            <div class="nav-links">
+                <a href="#home" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>முகப்பு</span>
+                </a>
+                <a href="#fish-list" class="nav-link">
+                    <i class="fas fa-list"></i>
+                    <span>மீன் பட்டியல்</span>
+                </a>
+                <a href="#about" class="nav-link">
+                    <i class="fas fa-info-circle"></i>
+                    <span>எங்களை பற்றி</span>
+                </a>
+                <a href="#contact" class="nav-link">
+                    <i class="fas fa-phone"></i>
+                    <span>தொடர்பு</span>
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="cart-button" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-water"></i>
+                <span>ஆற்று மீன் நிபுணர்கள் | River Fish Specialist</span>
+            </div>
+            <h1 class="hero-title">
+                தினமும் புதிய ஆற்று மீன்
+                <span class="gradient-text">Fresh River Fish Daily</span>
+            </h1>
+            <p class="hero-subtitle">
+                ஆற்றில் இருந்து நேரடியாக உங்கள் வீட்டிற்கு<br>
+                Direct from River to Your Home
+            </p>
+            <div class="hero-buttons">
+                <a href="#fish-list" class="btn btn-primary">
+                    <i class="fas fa-fish"></i>
+                    இன்றைய மீன் பார்க்க
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <i class="fas fa-phone"></i>
+                    தொடர்பு கொள்ள
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fish List Section -->
+    <section id="fish-list" class="fish-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-fish"></i>
+                    <span>இன்றைய வருகை | Today's Catch</span>
+                </div>
+                <h2 class="section-title">
+                    இன்றைய மீன் பட்டியல்
+                    <span class="gradient-text">Today's Fish List</span>
+                </h2>
+            </div>
+
+            <div class="filters-container">
+                <button class="filter-btn active" onclick="filterFish('all')">
+                    <i class="fas fa-th"></i> அனைத்தும்
+                </button>
+                <button class="filter-btn" onclick="filterFish('river')">
+                    <i class="fas fa-water"></i> ஆற்று மீன்
+                </button>
+                <button class="filter-btn" onclick="filterFish('sea')">
+                    <i class="fas fa-fish"></i> கடல் மீன்
+                </button>
+                <button class="filter-btn" onclick="filterFish('available')">
+                    <i class="fas fa-check"></i> கிடைக்கும்
+                </button>
+            </div>
+
+            <div class="fish-grid" id="fishGrid">
+                <!-- Fish cards load here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
                 <div class="section-badge">
                     <i class="fas fa-info-circle"></i>
                     <span>எங்களை பற்றி | About Us</span>
@@ -104,98 +126,114 @@
                     எங்களை பற்றி
                     <span class="gradient-text">Why Choose Us</span>
                 </h2>
+            </div>
+            <div class="about-content">
                 <p class="about-text">
                     கலிதீன் மீன் கடையில் 15 வருடங்களுக்கு மேலாக தரமான ஆற்று மீன் வகைகளை வழங்கி வருகிறோம். 
                     எங்கள் மீன்கள் தினமும் காலையில் உள்ளூர் ஆற்றில் இருந்து நேரடியாக வருகின்றன.
                 </p>
                 <p class="about-text">
                     At Kalitheen Fish Shop, we have been providing quality river fish for over 15 years. 
-                    Our fish arrives fresh from local rivers every morning. We occasionally have sea fish when available.
+                    Our fish arrives fresh from local rivers every morning.
                 </p>
-                <div class="about-features">
-                    <div class="about-feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-water"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>ஆற்று மீன் நிபுணர்கள் | River Fish Experts</h4>
-                            <p>புதிய ஆற்று மீன் தினமும்</p>
-                        </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-phone"></i>
+                    <span>தொடர்பு | Contact</span>
+                </div>
+                <h2 class="section-title">
+                    தொடர்பு கொள்ள
+                    <span class="gradient-text">Get In Touch</span>
+                </h2>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
                     </div>
-                    <div class="about-feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>உயர் தரம் | Premium Quality</h4>
-                            <p>சிறந்த தரம் உத்தரவாதம்</p>
-                        </div>
+                    <h3>தொலைபேசி | Phone</h3>
+                    <p>+94 XX XXX XXXX</p>
+                    <a href="tel:+94XXXXXXXXX" class="contact-link">அழைக்க</a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
                     </div>
-                    <div class="about-feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>நம்பகமான சேவை | Trusted Service</h4>
-                            <p>15+ வருட நம்பிக்கை</p>
-                        </div>
+                    <h3>வாட்ஸ்அப் | WhatsApp</h3>
+                    <p>விரைவு ஆர்டர்</p>
+                    <a href="https://wa.me/94XXXXXXXXX" class="contact-link">அரட்டை</a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
                     </div>
+                    <h3>இடம் | Location</h3>
+                    <p>கலிதீன் மீன் கடை<br>இலங்கை</p>
+                    <a href="#" class="contact-link">திசைகள்</a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>நேரம் | Hours</h3>
+                    <p>தினமும்<br>6:00 AM - 6:00 PM</p>
+                    <a href="#fish-list" class="contact-link">ஆர்டர்</a>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 கலிதீன் மீன் கடை | Kalitheen Fish Shop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>
+                <i class="fas fa-shopping-cart"></i>
+                உங்கள் கார்ட்
+            </h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-body" id="cartItems">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>மொத்தம்:</span>
+                <span class="total-amount">ரூ. 0.00</span>
+            </div>
+            <button class="btn btn-success btn-block" onclick="checkout()">
+                <i class="fab fa-whatsapp"></i>
+                ஆர்டர் செய்ய
+            </button>
         </div>
     </div>
-</section>
 
-<!-- Contact Section - UPDATED -->
-<section id="contact" class="contact-section">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-badge">
-                <i class="fas fa-phone"></i>
-                <span>தொடர்பு | Contact</span>
-            </div>
-            <h2 class="section-title">
-                தொடர்பு கொள்ள
-                <span class="gradient-text">Get In Touch</span>
-            </h2>
-        </div>
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div class="contact-icon">
-                    <i class="fas fa-phone-alt"></i>
-                </div>
-                <h3>தொலைபேசி | Phone</h3>
-                <p>+94 XX XXX XXXX</p>
-                <a href="tel:+94771988353" class="contact-link">அழைக்க | Call Now</a>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-icon">
-                    <i class="fab fa-whatsapp"></i>
-                </div>
-                <h3>வாட்ஸ்அப் | WhatsApp</h3>
-                <p>விரைவு ஆர்டர் | Quick Order</p>
-                <a href="https://wa.me/94771988353" class="contact-link">அரட்டை | Chat Now</a>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <h3>இடம் | Location</h3>
-                <p>கலிதீன் மீன் கடை<br>காத்தான்குடி பதுரியா டெலிகாம் வீதி | Bhaduria Telecom Road, Kattankudy</p>
-                <a href="#" class="contact-link">திசைகள் | Directions</a>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <h3>நேரம் | Working Hours</h3>
-                <p>தினமும் | Every Day<br>காலை 6:00 - காலை 12:30<br>6:00 AM - 12:30 AM</p>
-                <a href="#fish-list" class="contact-link">ஆர்டர் | Order Now</a>
-            </div>
-        </div>
-    </div>
-</section>
+    <script src="script.js"></script>
+</body>
+</html>
