@@ -168,7 +168,6 @@ function createFishCard(fish) {
     நீங்கள் உள்ளிடும் தொகைக்கேற்ப (Rs/Kg) கிலோ கணக்கிடப்படும்.
   </small>
 </div>
-    ;
 
     return card;
 }
