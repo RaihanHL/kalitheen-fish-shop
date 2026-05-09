@@ -210,13 +210,15 @@ function selectCustomAmount(fishId, amountValue) {
 // --- Cart ---
 function addToCart(fishId) {
   const fish = fishData.find(f => f.id === fishId);
-  const qty = selectedQuantities[fishId];
-
-  if (!fish || !qty) {
+ 
+   const qty = selectedQuantities[fishId];
+  if (!fish || !qty)
+  
+  {
     alert("அளவு தேர்வு செய்யவும் | Select quantity");
     return;
   }
-
+   
   const existing = cart.find(i => i.id === fishId);
   if (existing) {
     existing.quantity += qty;
