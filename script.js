@@ -151,25 +151,28 @@ function createFishCard(fish) {
                         <button class="qty-btn" onclick="selectQuantity(${fish.id}, 1.5, this)">1.5 கிலோ</button>
                         <button class="qty-btn" onclick="showCustomQuantity(${fish.id}, this)">+ More</button>
                     </div>
-                    <div class="custom-quantity" id="custom-${fish.id}">
-                        <input type="number" class="custom-input" placeholder="கிலோ உள்ளிடவும்" step="0.25" min="0.25" onchange="selectCustomQuantity(${fish.id}, this.value)">
-                    </div>
-                </div>
-                <div class="price-display">
-                    <div class="calculated-price" id="price-${fish.id}">Select quantity</div>
-                </div>
-                <button class="add-to-cart" id="cart-btn-${fish.id}" disabled onclick="addToCart(${fish.id})">
-                    கார்ட்டில் சேர் | Add to Cart
-                </button>
-            ` : `
-                <button class="add-to-cart" disabled>Out of Stock</button>
-            `}
-        </div>
+                    <button class="qty-btn" onclick="showCustomQuantity(${fish.id}, this)">
+  <i class="fas fa-plus"></i> More
+</button>
+
+<div class="custom-quantity" id="custom-${fish.id}">
+  <input
+    type="number"
+    class="custom-input"
+    placeholder="பணத்தினை உள்ளிடவும் (ரூ.) | Enter Amount (Rs)"
+    min="1"
+    step="1"
+    oninput="selectCustomAmount(${fish.id}, this.value)"
+  >
+  <small style="display:block;margin-top:6px;opacity:.75;">
+    நீங்கள் உள்ளிடும் தொகைக்கேற்ப (Rs/Kg) கிலோ கணக்கிடப்படும்.
+  </small>
+</div>
     `;
 
     return card;
 }
-
+              
 // Select quantity
 function selectQuantity(fishId, quantity, button) {
     const card = button.closest('.fish-card');
@@ -377,3 +380,41 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFishData();
     updateCartUI();
 });
+
+let selectedAmounts = {}; // NEW: store entered money for each fish
+
+function selectCustomAmount(fishId, amountValue) {
+  const fish = fishData.find(f => f.id === fishId);
+  const amount = parseFloat(amountValue);
+
+  const priceEl = document.getElementById(`price-${fishId}`);
+  const cartBtn = document.getElementById(`cart-btn-${fishId}`);
+
+  if (!fish || !isFinite(amount) || amount <= 0) {
+    // invalid amount -> disable
+    delete selectedQuantities[fishId];
+    delete selectedAmounts[fishId];
+    if (priceEl) priceEl.innerHTML = `பணத்தை உள்ளிடவும் | Enter amount`;
+    if (cartBtn) cartBtn.disabled = true;
+    return;
+  }
+
+  const qtyKg = amount / fish.price;   // quantity calculated from money
+  selectedQuantities[fishId] = qtyKg;
+  selectedAmounts[fishId] = amount;
+
+  // display: amount + quantity
+  const grams = Math.round(qtyKg * 1000);
+  if (priceEl) {
+    priceEl.innerHTML = `
+      <div style="font-size:14px;opacity:.75;margin-bottom:6px;">
+        ரூ. ${amount.toFixed(2)} / (ரூ. ${fish.price} ஒரு கிலோ)
+      </div>
+      <div style="font-size:18px;font-weight:700;">
+        அளவு: ${qtyKg.toFixed(2)} கிலோ (சுமார் ${grams}g)
+      </div>
+    `;
+  }
+
+  if (cartBtn) cartBtn.disabled = false;
+}
